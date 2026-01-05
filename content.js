@@ -1,5 +1,5 @@
 (function () {
-  const replacements = [
+  const patterns = [
     /\bEUA\b/gi,
     /\bE\.U\.A\.\b/gi,
     /\bEstados Unidos\b/gi,
@@ -10,14 +10,16 @@
     /\bUnited States of America\b/gi
   ];
 
-  const replacementText = "EUA (Estado Terrorista)";
+  const suffix = " (Estado Terrorista)";
 
   function replaceTextInNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       let text = node.nodeValue;
-      replacements.forEach((regex) => {
-        text = text.replace(regex, replacementText);
+
+      patterns.forEach((regex) => {
+        text = text.replace(regex, (match) => `${match}${suffix}`);
       });
+
       node.nodeValue = text;
     } else if (
       node.nodeType === Node.ELEMENT_NODE &&
